@@ -1,10 +1,9 @@
-package hellojpa.jpa;
+package hellojpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,14 +14,26 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-//          Member findmember = em.find(Member.class, 1L);
-            List<Member> result = em.createQuery("select m from Member as m",Member.class)
-                            .setFirstResult(1)
-                            .setMaxResults(10)
-                            .getResultList();
-            for(Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
+            Member member1 = new Member();
+            member1.setUsername("A");
+
+            Member member2 = new Member();
+            member2.setUsername("B");
+
+            Member member3 = new Member();
+            member3.setUsername("A");
+
+            System.out.println("===========");
+
+            em.persist(member1); // 1, 51
+            em.persist(member2); //MEM
+            em.persist(member3); //MEM
+
+            System.out.println("member1.getId = " + member1.getId());
+            System.out.println("member2.getId = " + member2.getId());
+            System.out.println("member3.getId = " + member3.getId());
+
+            System.out.println("===========");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
