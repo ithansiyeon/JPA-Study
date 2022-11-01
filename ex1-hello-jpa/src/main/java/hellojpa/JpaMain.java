@@ -14,26 +14,15 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member1 = new Member();
-            member1.setUsername("A");
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            Member member = saveMember(em);
 
-            Member member3 = new Member();
-            member3.setUsername("A");
+            Team team = new Team();
+            team.setName("teamA");
+            team.getMembers().add(member);
 
-            System.out.println("===========");
+            em.persist(team);
 
-            em.persist(member1); // 1, 51
-            em.persist(member2); //MEM
-            em.persist(member3); //MEM
-
-            System.out.println("member1.getId = " + member1.getId());
-            System.out.println("member2.getId = " + member2.getId());
-            System.out.println("member3.getId = " + member3.getId());
-
-            System.out.println("===========");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -43,5 +32,13 @@ public class JpaMain {
         }
         //엔티티 매니저 팩토리 닫아줘
         emf.close();
+    }
+
+    private static Member saveMember(EntityManager em) {
+        Member member = new Member();
+        member.setUsername("member1");
+
+        em.persist(member);
+        return member;
     }
 }
