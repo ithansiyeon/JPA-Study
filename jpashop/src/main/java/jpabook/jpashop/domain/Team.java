@@ -3,7 +3,7 @@ package jpabook.jpashop.domain;
 import javax.persistence.*;
 
 @Entity
-public class Team {
+public class Team extends BaseEntity{
     @Id @GeneratedValue
     @Column(name = "TEAM_ID")
     private Long id;
