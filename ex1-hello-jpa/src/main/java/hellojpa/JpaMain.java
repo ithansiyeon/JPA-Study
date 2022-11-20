@@ -1,34 +1,34 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hellojpa");
-
         EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
 
-           Member member = new Member();
-           member.setCreateBy("kim");
-           member.setCreateDate(LocalDateTime.now());
-           member.setUsername("user1");
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-           em.persist(member);
-           //영속성 컨텍스트에 있는걸 날려
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
+
             em.flush();
-            em.clear();
+
+            Parent findParent = em.find(Parent.class, parent.getId());
+            em.remove(findParent);
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            System.out.println("e = " + e);
         } finally {
             //엔티티 매니저 닫아줘
             em.close();
@@ -37,11 +37,8 @@ public class JpaMain {
         emf.close();
     }
 
-    private static Member saveMember(EntityManager em) {
-        Member member = new Member();
-        member.setUsername("member1");
-
-        em.persist(member);
-        return member;
+    private static void logic(Member m1, Member m2) {
+        System.out.println("m1 == m2: " + (m1 instanceof Member));
+        System.out.println("m1 == m2: " + (m2 instanceof Member));
     }
 }

@@ -1,9 +1,6 @@
 package jpabook.jpashop;
 
 import jpabook.jpashop.domain.Book;
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderItem;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -24,7 +21,7 @@ public class JpaMain {
 
             em.persist(book);
 
-             tx.commit();
+            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
