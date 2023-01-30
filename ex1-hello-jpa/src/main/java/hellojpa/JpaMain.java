@@ -2,7 +2,10 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.util.List;
+<<<<<<< Updated upstream
 import java.util.Set;
+=======
+>>>>>>> Stashed changes
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -12,6 +15,7 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
+<<<<<<< Updated upstream
 
             Member member = new Member();
             member.setUsername("member1");
@@ -42,6 +46,22 @@ public class JpaMain {
 //            findMember.getAddressHistory().remove(new Address("old1","street","10000"));
 //            findMember.getAddressHistory().add(new Address("newCity1","street","10000"));
 
+=======
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
+
+            //flush -> commit, query
+            em.flush();
+            //결과 0
+            //dbconn.executeQuery("select * from member");
+
+            List<Member> resultList = em.createNativeQuery("select member_id, city, street, zipcode, username from member", Member.class)
+                    .getResultList();
+            for (Member member1 : resultList) {
+                System.out.println("member1 = " + member1);
+            }
+>>>>>>> Stashed changes
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
