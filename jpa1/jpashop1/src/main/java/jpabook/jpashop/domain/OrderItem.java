@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -31,14 +34,19 @@ public class OrderItem {
     private int count; //주문 수량
 
     //==생성 메서드==//
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
-        orderItem.setOrderPrice(orderPrice);
-        orderItem.setCount(count);
+    public static List<OrderItem> createOrderItem(List<Item> items, List<Integer> counts) {
+        List<OrderItem> orderItems = new ArrayList<>();
 
-        item.removeStock(count);
-        return orderItem;
+        for (int i=0; i<items.size(); i++) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(items.get(i));
+            orderItem.setOrderPrice(items.get(i).getPrice());
+            orderItem.setCount(counts.get(i));
+            items.get(i).removeStock(counts.get(i));
+            orderItems.add(orderItem);
+        }
+
+        return orderItems;
     }
 
     //==비즈니스 로직==//

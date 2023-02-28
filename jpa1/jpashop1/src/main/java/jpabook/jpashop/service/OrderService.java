@@ -8,9 +8,13 @@ import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,19 +30,25 @@ public class OrderService {
      * 주문
      */
     @Transactional
-    public Long order(Long memberId, Long itemId, int count) {
+    public Long order(Long memberId, List<Long> itemIds, List<Integer> counts) {
+        //트랜잭션이 있는 곳에서 해야지 값을 바꿀 수 있어
         Member member = memberRepository.findOne(memberId);
-        Item item = itemRepository.findOne(itemId);
+
+        List<Item> items = new ArrayList<>();
+        for (Long itemId : itemIds) {
+            Item item = itemRepository.findOne(itemId);
+            items.add(item);
+        }
 
         //배송정보 생성
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
 
         //주문상품 생성
-        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+        List<OrderItem> orderItems = OrderItem.createOrderItem(items, counts);
 
         //주문 생성
-        Order order = Order.createOrder(member, delivery, orderItem);
+        Order order = Order.createOrder(member, delivery, orderItems);
 
         //주문 저장
         orderRepository.save(order);
@@ -58,9 +68,9 @@ public class OrderService {
     }
 
     //검색
-//    public List<Order> findOrders(OrderSearch orderSearch) {
-//        return orderRepository.findAll(orderSearch);
-//    }
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByCriteria(orderSearch);
+    }
 
 
 }
