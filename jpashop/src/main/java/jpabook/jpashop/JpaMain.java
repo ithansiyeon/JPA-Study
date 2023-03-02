@@ -1,11 +1,7 @@
 package jpabook.jpashop;
 
 import jpabook.jpashop.domain.Book;
-<<<<<<< Updated upstream
-=======
 import jpabook.jpashop.domain.Item;
-
->>>>>>> Stashed changes
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -26,12 +22,9 @@ public class JpaMain {
 
             em.persist(book);
 
-<<<<<<< Updated upstream
-=======
             em.createQuery("select i from Item i where type(i) = Book ", Item.class)
                     .getResultList();
 
->>>>>>> Stashed changes
             tx.commit();
         } catch (Exception e) {
             tx.rollback();

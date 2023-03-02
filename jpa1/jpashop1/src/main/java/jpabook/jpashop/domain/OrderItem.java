@@ -49,6 +49,15 @@ public class OrderItem {
         return orderItems;
     }
 
+    public static OrderItem createOrderItem(Item item, int price, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(price);
+        orderItem.setCount(count);
+        item.removeStock(count);
+        return orderItem;
+    }
+
     //==비즈니스 로직==//
     public void cancel() {
         getItem().addStock(count);
