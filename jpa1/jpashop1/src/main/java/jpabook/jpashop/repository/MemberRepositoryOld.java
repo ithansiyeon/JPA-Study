@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepository {
+public class MemberRepositoryOld {
     //component 스캔으로 자동으로 관리가 돼
     //final 키워드가 붙은 멤버변수를 생성자 파라미터로 알아서 넣어준다.
     private final EntityManager em;
