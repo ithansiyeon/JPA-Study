@@ -32,7 +32,7 @@ public class OrderService {
     @Transactional
     public Long order(Long memberId, List<Long> itemIds, List<Integer> counts) {
         //트랜잭션이 있는 곳에서 해야지 값을 바꿀 수 있어
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).get();
 
         List<Item> items = new ArrayList<>();
         for (Long itemId : itemIds) {
