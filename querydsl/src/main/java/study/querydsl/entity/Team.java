@@ -19,7 +19,7 @@ public class Team {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "team_id")
+    @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>(); //연관 관계 주인이 아니여서 키를 update 하지 않음
 
     public Team(String name) {
