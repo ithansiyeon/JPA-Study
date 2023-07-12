@@ -70,11 +70,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         //count 쿼리 최적화 할려면..
         //데이터가 몇천건이면
         JPAQuery<Member> countQuery = getTotal(condition);
-        return PageableExecutionUtils.getPage(content, pageable, () -> countQuery)
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
 //        return new PageImpl<>(content,pageable,total);
     }
 
-    private long getTotal(MemberSearchCondition condition) {
+    private JPAQuery<Member> getTotal(MemberSearchCondition condition) {
         return queryFactory.select(member).from(member).leftJoin(member.team, team)
                 .where(usernameEq(condition.getUsername()),
                         teamNameEq(condition.getTeamName()),
