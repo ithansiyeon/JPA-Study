@@ -22,6 +22,7 @@ class MemberJpaRepositoryTest {
     EntityManager em;
 
     @Autowired MemberJpaRepository memberJpaRepository;
+    @Autowired MemberRepository memberRepository;
 
     @Test
     public void basicTest() {
@@ -53,7 +54,7 @@ class MemberJpaRepositoryTest {
 //        condition.setAgeLoe(40);
         condition.setTeamName("teamB");
 
-        List<MemberTeamDto> result = memberJpaRepository.search(condition);
+        List<MemberTeamDto> result = memberRepository.search(condition);
         assertThat(result).extracting("username").containsExactly("member3","member4");
     }
 

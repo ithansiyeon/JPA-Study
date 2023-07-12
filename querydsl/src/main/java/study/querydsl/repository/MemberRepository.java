@@ -5,7 +5,9 @@ import study.querydsl.entity.Member;
 
 import java.util.List;
 
-public interface MemberRepository  extends JpaRepository<Member, Long> {
+//interface 여러개 상속 가능
+public interface MemberRepository  extends JpaRepository<Member, Long>, MemberRepositoryCustom {
     //select m from Member m where m.username = username
+    //메소드 이름으로 자동으로 만들어 줌
     List<Member> findByUsername(String usernmae);
 }
